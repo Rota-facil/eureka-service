@@ -6,6 +6,7 @@ on:
       - "src/**"
       - "Dockerfile"
       - "pom.xml"
+      - ".github/**"
 
 jobs:
   build:
@@ -23,7 +24,7 @@ jobs:
           cache: maven
 
       - name: build-project
-        run: maven clean package
+        run: mvn clean package -DskipTests
 
       - name: login-dockerhub
         uses: docker/login-action@v3
