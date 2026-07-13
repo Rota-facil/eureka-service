@@ -1,50 +1,21 @@
 # eureka-service
 
-Service discovery do Rota Facil. Este servico roda um servidor Netflix Eureka para que gateway e microservicos registrem suas instancias e resolvam chamadas por nome logico, como `lb://auth-service`.
+Servidor Netflix Eureka do Rota Fácil. Mantém o registro das instâncias e permite resolução por nome lógico, como `lb://transport-service`.
 
-## Para que serve
+## Configuração
 
-- Centraliza o registro de instancias dos microservicos.
-- Permite que o `gateway-service` roteie usando nomes de servico.
-- Facilita descoberta dinamica em ambiente local ou distribuido.
-
-## Porta e nome
-
-- Aplicacao: `eureka-service`
+- Aplicação: `eureka-service`
 - Porta: `8081`
-- URL local: `http://localhost:8081`
-- Eureka default zone: `http://localhost:8081/eureka`
+- Dashboard: `http://localhost:8081`
+- Default zone: `http://localhost:8081/eureka`
 
-## Principais configuracoes
-
-- `eureka.client.register-with-eureka=false`: o servidor nao se registra nele mesmo.
-- `eureka.client.fetch.registry=false`: nao busca registry como cliente.
-- `eureka.server.enable-self-preservation=false`: self-preservation desativado, util em ambiente de desenvolvimento.
-- OTLP/Micrometer habilitados por propriedades `management.*`.
-
-## Endpoints
-
-- `GET /`: dashboard web do Eureka.
-- `GET /eureka/**`: API interna do Eureka usada pelos clientes.
+Configuração local: `register-with-eureka=false`, `fetch-registry=false` e `enable-self-preservation=false`. A autopreservação desligada facilita desenvolvimento, mas deve ser reavaliada em produção. Métricas e traces são exportados por OTLP conforme `management.*`.
 
 ## Como rodar
-
-Pre-requisitos:
-
-- Java 21.
-- Maven ou wrapper `./mvnw`.
-
-Comando:
 
 ```bash
 cd eureka-service
 ./mvnw spring-boot:run
 ```
 
-ou:
-
-```bash
-mvn spring-boot:run
-```
-
-Suba este servico antes dos demais microservicos.
+Requer Java 21. Suba este serviço antes dos demais quando executar sem Docker Compose.
